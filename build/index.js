@@ -24,4 +24,5 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const formatUStoBR = __importStar(require("./util/formatUStoBR"));
-console.log(formatUStoBR.converterData("03/21/2023"));
+console.log(formatUStoBR.convertDate("03/21/2023"));
+console.log(formatUStoBR.convertNumber('0.12345'));
