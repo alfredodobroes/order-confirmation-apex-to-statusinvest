@@ -19,7 +19,6 @@ async function foo() {
 async function foo2() {
     let apexFiles = new ApexFiles();
     await apexFiles.createImportFileStatusInvest();
-    console.log("oi");
 }
 
 foo2();

@@ -9,15 +9,10 @@ export class ApexFiles {
         let pdfTextList = await pdfHelper.getTextFromPDFs(config.APEXFilesDir);
         let pdfOrderTextList = this.extractOrdersInfo(pdfTextList);
         let transactionInfoList: TransactionInfo[] = [];
-        console.log("oi2");
 
         for (let pdfOrderText of pdfOrderTextList) {
-            console.log("--");
             transactionInfoList.push(this.translatePdfDataToTransactionInfo(pdfOrderText));
-            console.log("--" + transactionInfoList.length);
         }
-
-        console.log(transactionInfoList);
 
         return pdfTextList.length;
     }
