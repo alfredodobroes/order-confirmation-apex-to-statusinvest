@@ -6,4 +6,7 @@
 *.pid
 *.gz
 *.swp
+*.pdf
+*.xlsx
 node_modules
+extract-table.js

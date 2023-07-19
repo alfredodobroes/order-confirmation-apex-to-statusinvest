@@ -24,5 +24,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const formatUStoBR = __importStar(require("./util/formatUStoBR"));
+const pdfManager = __importStar(require("./util/pdfApexManager"));
 console.log(formatUStoBR.convertDate("03/21/2023"));
 console.log(formatUStoBR.convertNumber('0.12345'));
+let num = 10.5;
+console.log(num);
+pdfManager.getTransactionInfoFromPDFs();
