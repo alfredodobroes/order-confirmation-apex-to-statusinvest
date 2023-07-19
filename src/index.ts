@@ -1,11 +1,25 @@
 import * as formatUStoBR from './util/formatUStoBR';
-import * as pdfManager from './util/pdfApexManager';
+import * as pdfHelper from './util/pdfHelper';
+import * as config from './config';
+import { ApexFiles } from './controllers/ApexFiles';
 
-console.log(formatUStoBR.convertDate("03/21/2023"));
-console.log(formatUStoBR.convertNumber('0.12345'));
 
-let num : number = 10.5;
+//console.log(formatUStoBR.convertDate("03/21/2023"));
+//console.log(formatUStoBR.convertNumber('0.12345'));
 
-console.log(num);
+//pdfHelper.getTransactionInfoFromPDFs();
 
-pdfManager.getTransactionInfoFromPDFs();
+async function foo() {
+    let boo = await pdfHelper.getTextFromPDFs(config.APEXFilesDir);
+    console.log(boo);
+}
+
+//foo();
+
+async function foo2() {
+    let apexFiles = new ApexFiles();
+    await apexFiles.createImportFileStatusInvest();
+    console.log("oi");
+}
+
+foo2();

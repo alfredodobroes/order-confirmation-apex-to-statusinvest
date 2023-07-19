@@ -22,11 +22,34 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const formatUStoBR = __importStar(require("./util/formatUStoBR"));
-const pdfManager = __importStar(require("./util/pdfApexManager"));
-console.log(formatUStoBR.convertDate("03/21/2023"));
-console.log(formatUStoBR.convertNumber('0.12345'));
-let num = 10.5;
-console.log(num);
-pdfManager.getTransactionInfoFromPDFs();
+const pdfHelper = __importStar(require("./util/pdfHelper"));
+const config = __importStar(require("./config"));
+const ApexFiles_1 = require("./controllers/ApexFiles");
+//console.log(formatUStoBR.convertDate("03/21/2023"));
+//console.log(formatUStoBR.convertNumber('0.12345'));
+//pdfHelper.getTransactionInfoFromPDFs();
+function foo() {
+    return __awaiter(this, void 0, void 0, function* () {
+        let boo = yield pdfHelper.getTextFromPDFs(config.APEXFilesDir);
+        console.log(boo);
+    });
+}
+//foo();
+function foo2() {
+    return __awaiter(this, void 0, void 0, function* () {
+        let apexFiles = new ApexFiles_1.ApexFiles();
+        yield apexFiles.createImportFileStatusInvest();
+        console.log("oi");
+    });
+}
+foo2();
