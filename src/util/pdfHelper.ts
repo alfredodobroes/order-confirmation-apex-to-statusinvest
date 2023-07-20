@@ -1,8 +1,5 @@
 import * as fs from 'fs';
-import * as config from '../config';
 import * as path from 'path';
-import * as formatUStoBR from './formatUStoBR';
-import { TransactionInfo } from '../models/TransactionInfo';
 
 const PDFParser = require('pdf-parse');
 
