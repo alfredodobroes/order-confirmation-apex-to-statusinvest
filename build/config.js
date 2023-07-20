@@ -23,6 +23,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.APEXFilesDir = void 0;
+exports.ReportsDir = exports.APEXTemplateFile = exports.APEXFilesDir = void 0;
 const path = __importStar(require("path"));
 exports.APEXFilesDir = path.join(__dirname, '../processing-files/receipts/');
+exports.APEXTemplateFile = path.join(__dirname, '../processing-files/template/importacao_statusinvest.xlsx');
+exports.ReportsDir = path.join(__dirname, '../processing-files/reports/');

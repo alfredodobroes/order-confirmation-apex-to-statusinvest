@@ -43,13 +43,9 @@ class ApexFiles {
             let pdfTextList = yield pdfHelper.getTextFromPDFs(config.APEXFilesDir);
             let pdfOrderTextList = this.extractOrdersInfo(pdfTextList);
             let transactionInfoList = [];
-            console.log("oi2");
             for (let pdfOrderText of pdfOrderTextList) {
-                console.log("--");
                 transactionInfoList.push(this.translatePdfDataToTransactionInfo(pdfOrderText));
-                console.log("--" + transactionInfoList.length);
             }
-            console.log(transactionInfoList);
             return pdfTextList.length;
         });
     }

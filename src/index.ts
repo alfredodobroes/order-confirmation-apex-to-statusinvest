@@ -1,5 +1,6 @@
 import * as formatUStoBR from './util/formatUStoBR';
 import * as pdfHelper from './util/pdfHelper';
+import * as xlsxHelper from './util/xlsxHelper';
 import * as config from './config';
 import { ApexFiles } from './controllers/ApexFiles';
 
@@ -22,3 +23,5 @@ async function foo2() {
 }
 
 foo2();
+
+xlsxHelper.createReportFileFromTemplate();

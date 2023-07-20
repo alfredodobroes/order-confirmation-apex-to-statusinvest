@@ -32,25 +32,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const pdfHelper = __importStar(require("./util/pdfHelper"));
-const xlsxHelper = __importStar(require("./util/xlsxHelper"));
-const config = __importStar(require("./config"));
-const ApexFiles_1 = require("./controllers/ApexFiles");
-//console.log(formatUStoBR.convertDate("03/21/2023"));
-//console.log(formatUStoBR.convertNumber('0.12345'));
-//pdfHelper.getTransactionInfoFromPDFs();
-function foo() {
+exports.createReportFileFromTemplate = void 0;
+const config = __importStar(require("../config"));
+const path = __importStar(require("path"));
+const fs = __importStar(require("fs"));
+function createReportFileFromTemplate() {
     return __awaiter(this, void 0, void 0, function* () {
-        let boo = yield pdfHelper.getTextFromPDFs(config.APEXFilesDir);
-        console.log(boo);
+        let templatePath = config.APEXTemplateFile;
+        let timestamp = Date.now();
+        let reportPath = path.join(config.ReportsDir, 'importacao_statusinvest_' + timestamp + '.xlsx');
+        fs.copyFile(templatePath, reportPath, (err) => {
+            if (err) {
+                console.error('Erro ao copiar o arquivo:', err);
+                return;
+            }
+            console.log('Arquivo copiado com sucesso!');
+            //fillFileWithData(destinationPath);
+        });
+        console.log("criado: " + reportPath);
+        return reportPath;
     });
 }
-//foo();
-function foo2() {
-    return __awaiter(this, void 0, void 0, function* () {
-        let apexFiles = new ApexFiles_1.ApexFiles();
-        yield apexFiles.createImportFileStatusInvest();
-    });
-}
-foo2();
-xlsxHelper.createReportFileFromTemplate();
+exports.createReportFileFromTemplate = createReportFileFromTemplate;

@@ -32,12 +32,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTransactionInfoFromPDFs = exports.getTextFromPDFs = void 0;
+exports.getTextFromPDFs = void 0;
 const fs = __importStar(require("fs"));
-const config = __importStar(require("../config"));
 const path = __importStar(require("path"));
-const formatUStoBR = __importStar(require("./formatUStoBR"));
-const TransactionInfo_1 = require("../models/TransactionInfo");
 const PDFParser = require('pdf-parse');
 function getPdfNameList(folderPath) {
     const files = fs.readdirSync(folderPath);
@@ -59,50 +56,3 @@ function getTextFromPDFs(folderPath) {
     });
 }
 exports.getTextFromPDFs = getTextFromPDFs;
-function getPdfOrders(pdfInfoList) {
-    let pdfOrdersList = [];
-    pdfInfoList.forEach((pdfInfo, index) => {
-        if (pdfInfoList[index] === '1' && pdfInfoList[index + 1] === 'B') {
-            let informacaoCorretagem = pdfInfoList.slice(index, index + 28);
-            pdfOrdersList.push(informacaoCorretagem);
-        }
-    });
-    return pdfOrdersList;
-}
-function getTransactionInfoFromPDFs() {
-    let pdfNameList = getPdfNameList(config.APEXFilesDir);
-    pdfNameList.forEach((pdfName) => __awaiter(this, void 0, void 0, function* () {
-        const pdfBuffer = yield fs.promises.readFile(config.APEXFilesDir + pdfName);
-        const pdfData = yield PDFParser(pdfBuffer);
-        let pdfText = pdfData.text;
-        translatePdfDataToTransactionInfoList(pdfText);
-    }));
-}
-exports.getTransactionInfoFromPDFs = getTransactionInfoFromPDFs;
-function translatePdfDataToTransactionInfoList(pdfText) {
-    let transactionInfoList = [];
-    let pdfInfoList = pdfText.split('\n');
-    let pdfOrdersList = getPdfOrders(pdfInfoList);
-    pdfOrdersList.forEach((orderInfo) => {
-        let tradeDate = formatUStoBR.convertDate(orderInfo[2]);
-        let type = 'Stock';
-        if (orderInfo[17].includes('ETF') || orderInfo[18].includes('ETF')) {
-            type = 'ETF\'s Internacionais';
-        }
-        let ticker = orderInfo[5];
-        let operationType = 'C';
-        if (orderInfo[1].includes('S')) {
-            operationType = 'V';
-        }
-        let quantity = formatUStoBR.convertNumber(orderInfo[4]);
-        let price = formatUStoBR.convertNumber(orderInfo[6]);
-        let brokerageName = 'APEX';
-        let brokerageFees = 0;
-        let taxGeneral = 0;
-        let taxGoverment = 0;
-        let taxIRRF = 0;
-        let transactionInfo = new TransactionInfo_1.TransactionInfo(tradeDate, type, ticker, operationType, quantity, price, brokerageName, brokerageFees, taxGeneral, taxGoverment, taxIRRF);
-        transactionInfoList.push(transactionInfo);
-    });
-    console.log(transactionInfoList);
-}
