@@ -1,20 +1,40 @@
 import * as pdfHelper from '../util/pdfHelper';
+import * as xlsxHelper from '../util/xlsxHelper';
 import * as formatUStoBR from '../util/formatUStoBR';
 import * as config from '../config';
 import { TransactionInfo } from '../models/TransactionInfo';
+import * as terminal from '../util/terminalHelper';
 
 export class ApexFiles {
 
-    public async createImportFileStatusInvest() {
+    public async createImportFileStatusInvestReport() {
+
+        await xlsxHelper.setWorkbook(config.APEXTemplateFile);
+        xlsxHelper.setSheet('Planilha1');
+        xlsxHelper.hasHeaderRow(true);
+
         let pdfTextList = await pdfHelper.getTextFromPDFs(config.APEXFilesDir);
         let pdfOrderTextList = this.extractOrdersInfo(pdfTextList);
-        let transactionInfoList: TransactionInfo[] = [];
+        let transactionInfoList: TransactionInfo[] = []; 
 
         for (let pdfOrderText of pdfOrderTextList) {
-            transactionInfoList.push(this.translatePdfDataToTransactionInfo(pdfOrderText));
+            let transactionInfo = this.translatePdfDataToTransactionInfo(pdfOrderText);
+            terminal.displayTransaction(transactionInfo.tradeDate, transactionInfo.ticker, transactionInfo.quantity);
+            xlsxHelper.setCellValue(transactionInfo.tradeDate);
+            xlsxHelper.setCellValue(transactionInfo.type);
+            xlsxHelper.setCellValue(transactionInfo.ticker);
+            xlsxHelper.setCellValue(transactionInfo.operationType);
+            xlsxHelper.setCellValue(transactionInfo.quantity);
+            xlsxHelper.setCellValue(transactionInfo.price);
+            xlsxHelper.setCellValue(transactionInfo.brokerageName);
+            xlsxHelper.setCellValue(transactionInfo.brokerageFees);
+            xlsxHelper.setCellValue(transactionInfo.taxGeneral);
+            xlsxHelper.setCellValue(transactionInfo.taxGoverment);
+            xlsxHelper.setCellValue(transactionInfo.taxIRRF);
+            xlsxHelper.nextRow();
         }
 
-        return pdfTextList.length;
+        xlsxHelper.createStatusInvestImportFile()
     }
 
     private extractOrdersInfo(pdfTextList: string[]) {
@@ -49,13 +69,14 @@ export class ApexFiles {
         if (orderText[1].includes('S')) {
             operationType = 'V';
         }
-        let quantity: number = formatUStoBR.convertNumber(orderText[4]);
-        let price: number = formatUStoBR.convertNumber(orderText[6]);
+        
+        let quantity: string = formatUStoBR.convertNumber(orderText[4]);
+        let price: string = formatUStoBR.convertNumber(orderText[6]);
         let brokerageName: string = 'APEX';
-        let brokerageFees: number = 0;
-        let taxGeneral: number = 0;
-        let taxGoverment: number = 0;
-        let taxIRRF: number = 0;
+        let brokerageFees: string = '0';
+        let taxGeneral: string = '0';
+        let taxGoverment: string = '0';
+        let taxIRRF: string = '0';
 
         let transactionInfo: TransactionInfo = new TransactionInfo(
             tradeDate,

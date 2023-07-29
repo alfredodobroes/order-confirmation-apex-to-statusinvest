@@ -32,25 +32,44 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const pdfHelper = __importStar(require("./util/pdfHelper"));
-const xlsxHelper = __importStar(require("./util/xlsxHelper"));
+const XlsxPopulate = require('xlsx-populate');
 const config = __importStar(require("./config"));
 const ApexFiles_1 = require("./controllers/ApexFiles");
-//console.log(formatUStoBR.convertDate("03/21/2023"));
-//console.log(formatUStoBR.convertNumber('0.12345'));
-//pdfHelper.getTransactionInfoFromPDFs();
-function foo() {
+/**
+XlsxPopulate.fromBlankAsync()
+    .then(function(workbook : any) {
+        // Modify the workbook.
+        workbook.sheet("Sheet1").cell("A1").value("This is neat!");
+ 
+        // Write to file.
+        return workbook.toFileAsync("./out.xlsx");
+    });
+
+    // Load an existing workbook
+    XlsxPopulate.fromFileAsync("./processing-files/reports/importacao_statusinvest_1690038764918.xlsx")
+        .then(function(workbook : any) {
+            // Modify the workbook.
+            let value = workbook.sheet("Planilha1").cell("A1").value("José");
+            console.log(value);
+  
+            return workbook.toFileAsync("./out3.xlsx");
+        });
+ */
+function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        let boo = yield pdfHelper.getTextFromPDFs(config.APEXFilesDir);
-        console.log(boo);
+        let workbook = yield XlsxPopulate.fromFileAsync(config.APEXTemplateFile);
+        console.log("terminou");
+        let value = workbook.sheet("Planilha1").cell("A2").value("Foi");
+        console.log(value);
+        let timestamp = Date.now();
+        workbook.toFileAsync("./out" + timestamp + ".xlsx");
     });
 }
-//foo();
-function foo2() {
+//main();
+function main2() {
     return __awaiter(this, void 0, void 0, function* () {
-        let apexFiles = new ApexFiles_1.ApexFiles();
-        yield apexFiles.createImportFileStatusInvest();
+        let apex = new ApexFiles_1.ApexFiles();
+        apex.createImportFileStatusInvestReport();
     });
 }
-foo2();
-xlsxHelper.createReportFileFromTemplate();
+main2();

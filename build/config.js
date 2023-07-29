@@ -23,8 +23,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ReportsDir = exports.APEXTemplateFile = exports.APEXFilesDir = void 0;
+exports.ReportsDir = exports.APEXTemplateFile = exports.APEXFilesDir = exports.appName = void 0;
 const path = __importStar(require("path"));
+exports.appName = 'Report Creator';
 exports.APEXFilesDir = path.join(__dirname, '../processing-files/receipts/');
 exports.APEXTemplateFile = path.join(__dirname, '../processing-files/template/importacao_statusinvest.xlsx');
+//export const APEXTemplateFile =  '/Users/alfredodobroes/Documents/pessoal/projects/order-confirmation-apex-to-statusinvest/processing-files/template/importacao_statusinvest.xlsx';
 exports.ReportsDir = path.join(__dirname, '../processing-files/reports/');

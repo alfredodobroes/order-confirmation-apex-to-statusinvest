@@ -9,6 +9,6 @@ function convertDate(americanDate) {
 exports.convertDate = convertDate;
 function convertNumber(americanNumber) {
     let brazilianNumber = americanNumber.replace('.', ',');
-    return parseFloat(brazilianNumber);
+    return brazilianNumber;
 }
 exports.convertNumber = convertNumber;

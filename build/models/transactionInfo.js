@@ -45,14 +45,14 @@ class TransactionInfo {
     }
     /**
      * Getter quantity
-     * @return {number}
+     * @return {string}
      */
     get quantity() {
         return this._quantity;
     }
     /**
      * Getter price
-     * @return {number}
+     * @return {string}
      */
     get price() {
         return this._price;
@@ -66,28 +66,28 @@ class TransactionInfo {
     }
     /**
      * Getter brokerageFees
-     * @return {number}
+     * @return {string}
      */
     get brokerageFees() {
         return this._brokerageFees;
     }
     /**
      * Getter taxGeneral
-     * @return {number}
+     * @return {string}
      */
     get taxGeneral() {
         return this._taxGeneral;
     }
     /**
      * Getter taxGoverment
-     * @return {number}
+     * @return {string}
      */
     get taxGoverment() {
         return this._taxGoverment;
     }
     /**
      * Getter taxIRRF
-     * @return {number}
+     * @return {string}
      */
     get taxIRRF() {
         return this._taxIRRF;
@@ -122,14 +122,14 @@ class TransactionInfo {
     }
     /**
      * Setter quantity
-     * @param {number} value
+     * @param {string} value
      */
     set quantity(value) {
         this._quantity = value;
     }
     /**
      * Setter price
-     * @param {number} value
+     * @param {string} value
      */
     set price(value) {
         this._price = value;
@@ -143,28 +143,28 @@ class TransactionInfo {
     }
     /**
      * Setter brokerageFees
-     * @param {number} value
+     * @param {string} value
      */
     set brokerageFees(value) {
         this._brokerageFees = value;
     }
     /**
      * Setter taxGeneral
-     * @param {number} value
+     * @param {string} value
      */
     set taxGeneral(value) {
         this._taxGeneral = value;
     }
     /**
      * Setter taxGoverment
-     * @param {number} value
+     * @param {string} value
      */
     set taxGoverment(value) {
         this._taxGoverment = value;
     }
     /**
      * Setter taxIRRF
-     * @param {number} value
+     * @param {string} value
      */
     set taxIRRF(value) {
         this._taxIRRF = value;

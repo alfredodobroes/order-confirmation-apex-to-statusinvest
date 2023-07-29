@@ -32,25 +32,45 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createReportFileFromTemplate = void 0;
+exports.nextRow = exports.createStatusInvestImportFile = exports.setCellValue = exports.hasHeaderRow = exports.setSheet = exports.setWorkbook = exports.currentCollum = exports.currentRow = exports.sheet = exports.workbook = exports.reportPath = void 0;
 const config = __importStar(require("../config"));
 const path = __importStar(require("path"));
-const fs = __importStar(require("fs"));
-function createReportFileFromTemplate() {
+const terminal = __importStar(require("./terminalHelper"));
+const XlsxPopulate = require('xlsx-populate');
+exports.currentRow = 1;
+exports.currentCollum = 1;
+function setWorkbook(templatePath) {
     return __awaiter(this, void 0, void 0, function* () {
-        let templatePath = config.APEXTemplateFile;
-        let timestamp = Date.now();
-        let reportPath = path.join(config.ReportsDir, 'importacao_statusinvest_' + timestamp + '.xlsx');
-        fs.copyFile(templatePath, reportPath, (err) => {
-            if (err) {
-                console.error('Erro ao copiar o arquivo:', err);
-                return;
-            }
-            console.log('Arquivo copiado com sucesso!');
-            //fillFileWithData(destinationPath);
-        });
-        console.log("criado: " + reportPath);
-        return reportPath;
+        exports.workbook = yield XlsxPopulate.fromFileAsync(templatePath);
+        terminal.templateSelection(templatePath);
     });
 }
-exports.createReportFileFromTemplate = createReportFileFromTemplate;
+exports.setWorkbook = setWorkbook;
+function setSheet(sheetName) {
+    exports.sheet = exports.workbook.sheet(sheetName);
+    terminal.sheetSelection(sheetName);
+}
+exports.setSheet = setSheet;
+function hasHeaderRow(headerRowStatus) {
+    if (headerRowStatus) {
+        exports.currentRow = 2;
+    }
+}
+exports.hasHeaderRow = hasHeaderRow;
+function setCellValue(value) {
+    exports.sheet.cell(exports.currentRow, exports.currentCollum).value(value);
+    exports.currentCollum = exports.currentCollum + 1;
+}
+exports.setCellValue = setCellValue;
+function createStatusInvestImportFile() {
+    let timestamp = Date.now();
+    exports.reportPath = path.join(config.ReportsDir, 'importacao_statusinvest_' + timestamp + '.xlsx');
+    exports.workbook.toFileAsync(exports.reportPath);
+    terminal.fileCreation(exports.reportPath);
+}
+exports.createStatusInvestImportFile = createStatusInvestImportFile;
+function nextRow() {
+    exports.currentRow = exports.currentRow + 1;
+    exports.currentCollum = 1;
+}
+exports.nextRow = nextRow;

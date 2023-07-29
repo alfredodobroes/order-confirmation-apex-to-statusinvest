@@ -1,27 +1,43 @@
-import * as formatUStoBR from './util/formatUStoBR';
-import * as pdfHelper from './util/pdfHelper';
-import * as xlsxHelper from './util/xlsxHelper';
+const XlsxPopulate = require('xlsx-populate');
 import * as config from './config';
 import { ApexFiles } from './controllers/ApexFiles';
 
+/**
+XlsxPopulate.fromBlankAsync()
+    .then(function(workbook : any) {
+        // Modify the workbook.
+        workbook.sheet("Sheet1").cell("A1").value("This is neat!");
+ 
+        // Write to file.
+        return workbook.toFileAsync("./out.xlsx");
+    });
 
-//console.log(formatUStoBR.convertDate("03/21/2023"));
-//console.log(formatUStoBR.convertNumber('0.12345'));
+    // Load an existing workbook
+    XlsxPopulate.fromFileAsync("./processing-files/reports/importacao_statusinvest_1690038764918.xlsx")
+        .then(function(workbook : any) {
+            // Modify the workbook.
+            let value = workbook.sheet("Planilha1").cell("A1").value("José");
+            console.log(value);
+  
+            return workbook.toFileAsync("./out3.xlsx");
+        });
+ */
 
-//pdfHelper.getTransactionInfoFromPDFs();
-
-async function foo() {
-    let boo = await pdfHelper.getTextFromPDFs(config.APEXFilesDir);
-    console.log(boo);
+async function main(){
+    let workbook : any = await XlsxPopulate.fromFileAsync(config.APEXTemplateFile);
+    console.log("terminou");
+    let value = workbook.sheet("Planilha1").cell("A2").value("Foi");
+    console.log(value);
+    let timestamp = Date.now();
+    workbook.toFileAsync("./out" + timestamp + ".xlsx");
 }
 
-//foo();
+//main();
 
-async function foo2() {
-    let apexFiles = new ApexFiles();
-    await apexFiles.createImportFileStatusInvest();
+async function main2(){
+    let apex : ApexFiles = new ApexFiles();
+    apex.createImportFileStatusInvestReport();
+
 }
 
-foo2();
-
-xlsxHelper.createReportFileFromTemplate();
+main2();
